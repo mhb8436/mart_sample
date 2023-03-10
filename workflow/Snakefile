@@ -15,8 +15,8 @@ ENVS_DIR = '../envs'
 SCRIPTS_DIR = '../scripts'
 JAR_FILE = RESOURCES_DIR +'/' + 'sample-0.1-jar-with-dependencies.jar'
 from datetime import datetime
-
-OUT_PREFIX = datetime.today().strftime('%Y%m%d') 
+import time
+OUT_PREFIX = datetime.today().strftime('%Y%m%d/%H/%M/%S')
 
 COUNT_INPUT_FILES = expand("{DATA_DIR}/{filename}.txt",DATA_DIR=DATA_DIR, filename=FILENAMES)
 COUNT_FILE = expand("{OUTPUTS_DIR}/{OUT_PREFIX}/wc_all.txt", OUTPUTS_DIR=OUTPUTS_DIR, OUT_PREFIX=OUT_PREFIX)
