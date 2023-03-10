@@ -1,0 +1,24 @@
+configfile: "config/config.yaml"
+S3 = workflow.default_remote_provider
+S3_PREFIX = workflow.default_remote_prefix
+
+FILENAMES = ['A','B','C']
+DATA_DIR = config['data_dir']
+OUTPUTS_DIR = config['outputs_dir']
+RESOURCES_DIR = config['resources_dir']
+
+RULES_DIR = 'rules'
+ENVS_DIR = '../envs'
+SCRIPTS_DIR = '../scripts'
+JAR_FILE = RESOURCES_DIR +'/' + 'sample-0.1-jar-with-dependencies.jar'
+
+COUNT_INPUT_FILES = expand("{DATA_DIR}/{filename}.txt",DATA_DIR=DATA_DIR, filename=FILENAMES)
+COUNT_FILE = expand("{OUTPUTS_DIR}/wc_all.txt", OUTPUTS_DIR=OUTPUTS_DIR)
+COUNT_SCRIPT = f'{SCRIPTS_DIR}/run.sh'
+
+include: f'{RULES_DIR}/count.smk'
+
+rule all:
+	input:
+		COUNT_FILE
+	group: "sample"
