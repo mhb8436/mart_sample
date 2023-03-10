@@ -1,1 +1,1 @@
-java -jar "${snakemake_params[jar]}" "${snakemake_input[0]}" > "${snakemake_output[0]}"
+java -jar "${snakemake_params[jar]}" "${snakemake_input[0]}" "${snakemake_params[odate]}" > "${snakemake_output[0]}"

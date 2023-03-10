@@ -1,3 +1,4 @@
 outputs_dir: output_folders/TestProject/workflow3/AN10001
 data_dir: input_folders/TestProject/workflow3/AN10001
 resources_dir: resource_folders/TestProject/workflow3
+odate: 20230101
