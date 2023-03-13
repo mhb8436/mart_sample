@@ -1,28 +1,28 @@
 configfile: "config/config.yaml"
-S3 = workflow.default_remote_provider
-S3_PREFIX = workflow.default_remote_prefix
+S3 = workflow.default_remote_provider # snakemake 명령줄에서 default_remote_provider 가져온다. 예) S3
+S3_PREFIX = workflow.default_remote_prefix # snakemake 명령줄에서 default_remote_prefix 가져온다. 예) mindera-mlops-prod-bucket
 
-FILENAMES = ['A','B','C']
-DATA_DIR = config['data_dir']
-OUTPUTS_DIR = config['outputs_dir']
-RESOURCES_DIR = config['resources_dir']
-ODATE = config['odate']
-OUT_PREFIX = config['out_prefix']
+FILENAMES = ['A','B','C'] # 작업할 파일명 
+DATA_DIR = config['data_dir'] # 작업할 데이터가 있는 디렉토리, config.yaml 에서 가져옴, snakemake 명령줄 실행시 --config 옵션 해당 옵션이 기재되면 명령줄 내용으로 overwrite
+OUTPUTS_DIR = config['outputs_dir'] # 작업후 출력할 데이터가 있는 디렉토리, config.yaml 에서 가져옴, snakemake 명령줄 실행시 --config 옵션 해당 옵션이 기재되면 명령줄 내용으로 overwrite
+RESOURCES_DIR = config['resources_dir'] # 작업중 필요한 리소스파일이 있는 디렉토리, config.yaml 에서 가져옴, snakemake 명령줄 실행시 --config 옵션 해당 옵션이 기재되면 명령줄 내용으로 overwrite
+ODATE = config['odate'] # YYYYMMDD 포멧의 현재날짜, config.yaml 에서 가져옴, snakemake 명령줄 실행시 --config 옵션 해당 옵션이 기재되면 명령줄 내용으로 overwrite
+OUT_PREFIX = config['out_prefix'] # YYYYMMDDHHMMSS 포멧의 현재날짜,  config.yaml 에서 가져옴, snakemake 명령줄 실행시 --config 옵션 해당 옵션이 기재되면 명령줄 내용으로 overwrite
 
-LOGS_DIR = 'logs'
+LOGS_DIR = 'logs' # 로그파일 디렉토리 
 
-RULES_DIR = 'rules'
-ENVS_DIR = '../envs'
-SCRIPTS_DIR = '../scripts'
-JAR_FILE = RESOURCES_DIR + '/' + 'sample-0.1-jar-with-dependencies.jar'
+RULES_DIR = 'rules' # 작업할 rule들이 보관된 디렉토리 
+ENVS_DIR = '../envs' # 환경변수 디렉토리 
+SCRIPTS_DIR = '../scripts' # 스크립트 디렉토리 
+JAR_FILE = RESOURCES_DIR + '/' + 'sample-0.1-jar-with-dependencies.jar' # count룰을 실행할 jar 파일명 
 
-COUNT_INPUT_FILES = expand("{DATA_DIR}/{filename}.txt",DATA_DIR=DATA_DIR, filename=FILENAMES)
-COUNT_FILE = f'{OUTPUTS_DIR}/{OUT_PREFIX}/wc_all.txt'
-COUNT_SCRIPT = f'{SCRIPTS_DIR}/run.sh'
-COUNT_LOG = f'{OUTPUTS_DIR}/{LOGS_DIR}/wc_all.log'
-include: f'{RULES_DIR}/count.smk'
+COUNT_INPUT_FILES = expand("{DATA_DIR}/{filename}.txt",DATA_DIR=DATA_DIR, filename=FILENAMES) # count룰을 실행할 작업할 파일
+COUNT_FILE = f'{OUTPUTS_DIR}/{OUT_PREFIX}/wc_all.txt' # count룰 결과 파일 
+COUNT_SCRIPT = f'{SCRIPTS_DIR}/run.sh' # count룰 실행 스크립트 
+COUNT_LOG = f'{OUTPUTS_DIR}/{LOGS_DIR}/wc_all.log' # count룰 로그 파일 
+include: f'{RULES_DIR}/count.smk' #count 룰을 임포트 
 
-rule all:
+rule all: # 전체 실행 룰 
 	input:
-		COUNT_FILE
+		COUNT_FILE 
 	group: "sample"
